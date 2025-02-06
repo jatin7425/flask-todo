@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block body %}
+  <div class="container">
+    <form action="/create_task" method="POST" autocomplete="off">
+      <div class="form-group">
+        <label for="title">Title</label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="Enter title">
+          <small id="titleHelp" class="form-text text-muted">Add your title</small>
+      </div>
+        <div class="form-group">
+         <label for="desc">Description</label>
+          <input type="text" class="form-control" name="desc" id="desc" placeholder="Description">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Task</button>
+    </form>
+
+    </div>
+
+    <br/><br/>
+
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">S-no.</th>
+                <th scope="col">Tittle</th>
+                <th scope="col">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if data|length == 0 %}
+                You don't have any todo pending
+                <br/><br/>
+              {% else %}
+                {% for items in data %}
+                  <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{items.title}}</td>
+                    <td>{{items.desc}}</td>
+                    <td class="btn-group" role="group">
+                        <a href="/edit_task/{{items.sno}}" type="submit" class="btn btn-success">Edit</a>
+                      <form action="/delete_task/{{items.sno}}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% endif %}
+            </tbody>            
+        </table>
+    </div>
+    
+{% endblock body %}
